@@ -2,10 +2,9 @@ from forwarder_class import ApplicationForwarder
 
 app = ApplicationForwarder()
 app.get_pods()
-app.get_pods_details()
 
 def main(app):
-    action = input("start, stop, list, help >> ")
+    action = input("start, stop, list, forwarded, set_namespace, get_namespace, help >> ")
 
     if action == "start":
         app.forward_custom_pods()
@@ -13,10 +12,19 @@ def main(app):
     elif action == "stop":
         app.kill_forwarded_pods()
         main(app)
-    elif action == "list":
+    elif action == "list" or action == "l":
+        app.get_pods_details()
+        main(app)
+    elif action == "forwarded" or action == "f":
         app.list_forwarded_pods()
         main(app)
-    elif action == "help":
+    elif action == "get_namespace" or action == "getn":
+        app.get_namespace()
+        main(app)
+    elif action == "set_namespace"or action == "setn":
+        app.set_namespace()
+        main(app)
+    elif action == "help" or action == "h":
         print("Help me")
         main(app)
     else:

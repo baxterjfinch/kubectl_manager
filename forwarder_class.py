@@ -79,3 +79,11 @@ class ApplicationForwarder:
                 x.pop(0)
                 line = re.split('\s+', x[0])
                 subprocess.run('kill -9 {0}'.format(line[1]).split())
+
+    def set_namespace(self):
+        namespace = input("\nEnter namespace >> ")
+        self.namespace = namespace
+        print("\nNamespace set to {0}\n".format(self.namespace))
+
+    def get_namespace(self):
+        print("\nNamespace set to {0}\n".format(self.namespace))
