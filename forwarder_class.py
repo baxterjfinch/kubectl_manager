@@ -15,6 +15,7 @@ class ApplicationForwarder:
     def get_pods(self):
         pods = 'kubectl get pods -n {0}'.format(self._namespace)
         result = subprocess.run(['kubectl', 'get', 'pods', '-n', self._namespace], stdout=subprocess.PIPE)
+
         x = result.stdout.decode('utf-8').splitlines()
         x.pop(0)
 
@@ -23,15 +24,13 @@ class ApplicationForwarder:
             self._pods_details.append(line)
             self._pods.append(line[0])
 
-        # print("Active Pods: {0}".format(self.pods))
-        # print("Details: {0}".format(self.pods_details))
-
     def get_pods_details(self):
         print("Pod Details:")
 
         for pod in self.pods_details:
             print(pod)
 
+    #Unimplemented
     def choose_pods(self):
         print("\nChoose Pods To Forward")
         print("(i.e. 2, 3, 7, 14 -or- all)\n")
@@ -43,7 +42,6 @@ class ApplicationForwarder:
         self.forward_pods()
 
     def forward_pods(self):
-
         if self.chosen_pods == "all" or self.chosen_pods == "All":
             print("\n\nForwarding All Pods...\n\n")
         else:
@@ -75,14 +73,16 @@ class ApplicationForwarder:
         for cmd in cmds:
             result = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
             x = result.stdout.decode('utf-8').splitlines()
+
             if len(x) > 0:
                 x.pop(0)
                 line = re.split('\s+', x[0])
                 subprocess.run('kill -9 {0}'.format(line[1]).split())
+
     @property
     def namespace(self):
         return self._namespace
-        
+
     @namespace.setter
     def namespace(self, space):
         self._namespace = space

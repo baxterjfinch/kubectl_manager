@@ -9,25 +9,32 @@ def main(app):
     if action == "start":
         app.forward_custom_pods()
         main(app)
+        
     elif action == "stop":
         app.kill_forwarded_pods()
         main(app)
+
     elif action == "list" or action == "l":
         app.get_pods_details()
         main(app)
+
     elif action == "forwarded" or action == "f":
         app.list_forwarded_pods()
         main(app)
+
     elif action == "get_namespace" or action == "getn":
         print(app.namespace)
         main(app)
+
     elif action == "set_namespace"or action == "setn":
         namespace = input("\nEnter namespace >> ")
         app.namespace = namespace
         main(app)
+
     elif action == "help" or action == "h":
         print("Help me")
         main(app)
+
     else:
         main(app)
     # os.system("echo Hello from the other side!")
