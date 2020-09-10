@@ -9,7 +9,7 @@ def main(app):
     if action == "start":
         app.forward_custom_pods()
         main(app)
-        
+
     elif action == "stop":
         app.kill_forwarded_pods()
         main(app)
@@ -37,7 +37,6 @@ def main(app):
 
     else:
         main(app)
-    # os.system("echo Hello from the other side!")
 
 if __name__ == "__main__":
     main(app)
