@@ -5,23 +5,23 @@ import subprocess, sys
 class ApplicationForwarder:
 
     def __init__(self):
-        self.namespace = 'testnet'
-        self.pods = []
-        self.pods_details = []
-        self.chosen_pods = []
-        self.forwarded_pods = []
-        self.pids = []
+        self._namespace = 'testnet'
+        self._pods = []
+        self._pods_details = []
+        self._chosen_pods = []
+        self._forwarded_pods = []
+        self._pids = []
 
     def get_pods(self):
-        pods = 'kubectl get pods -n {0}'.format(self.namespace)
-        result = subprocess.run(['kubectl', 'get', 'pods', '-n', self.namespace], stdout=subprocess.PIPE)
+        pods = 'kubectl get pods -n {0}'.format(self._namespace)
+        result = subprocess.run(['kubectl', 'get', 'pods', '-n', self._namespace], stdout=subprocess.PIPE)
         x = result.stdout.decode('utf-8').splitlines()
         x.pop(0)
 
         for pod in x:
             line = re.split('\s+', pod)
-            self.pods_details.append(line)
-            self.pods.append(line[0])
+            self._pods_details.append(line)
+            self._pods.append(line[0])
 
         # print("Active Pods: {0}".format(self.pods))
         # print("Details: {0}".format(self.pods_details))
@@ -62,12 +62,12 @@ class ApplicationForwarder:
         result2 = subprocess.Popen(hi, shell=True)
         result3 = subprocess.Popen(kf, shell=True)
 
-        self.forwarded_pods.append(kib)
-        self.forwarded_pods.append(hapi)
-        self.forwarded_pods.append(hindexer)
+        self._forwarded_pods.append(kib)
+        self._forwarded_pods.append(hapi)
+        self._forwarded_pods.append(hindexer)
 
     def list_forwarded_pods(self):
-        print("Forwarded Pods Are: {0}".format(self.forwarded_pods))
+        print("Forwarded Pods Are: {0}".format(self._forwarded_pods))
 
     def kill_forwarded_pods(self):
         cmds =['lsof -i :5601', 'lsof -i :7770', 'lsof -i :7771']
@@ -79,11 +79,11 @@ class ApplicationForwarder:
                 x.pop(0)
                 line = re.split('\s+', x[0])
                 subprocess.run('kill -9 {0}'.format(line[1]).split())
-
-    def set_namespace(self):
-        namespace = input("\nEnter namespace >> ")
-        self.namespace = namespace
-        print("\nNamespace set to {0}\n".format(self.namespace))
-
-    def get_namespace(self):
-        print("\nNamespace set to {0}\n".format(self.namespace))
+    @property
+    def namespace(self):
+        return self._namespace
+        
+    @namespace.setter
+    def namespace(self, space):
+        self._namespace = space
+        print("\nNamespace set to {0}\n".format(self._namespace))

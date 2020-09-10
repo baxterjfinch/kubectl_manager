@@ -19,10 +19,11 @@ def main(app):
         app.list_forwarded_pods()
         main(app)
     elif action == "get_namespace" or action == "getn":
-        app.get_namespace()
+        print(app.namespace)
         main(app)
     elif action == "set_namespace"or action == "setn":
-        app.set_namespace()
+        namespace = input("\nEnter namespace >> ")
+        app.namespace = namespace
         main(app)
     elif action == "help" or action == "h":
         print("Help me")
